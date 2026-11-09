@@ -58,23 +58,33 @@ mapa em [mesa-gen7.md](mesa-gen7.md).
 
 ### M1 — Primeiro build e linha de base (Linux)
 
+Guia: [linux-setup.md](linux-setup.md).
+
 - [ ] Instalar dependências e rodar `meson setup` / `ninja`; corrigir o que a
       limpeza tiver quebrado
 - [ ] Confirmar que o driver compilado é o carregado (`glxinfo -B`, `vulkaninfo`)
-- [ ] Conferir RAM em dual-channel e a faixa de frequência da GPU (`/sys/class/drm/card*/gt_*_freq_mhz`)
-- [ ] Medição de referência: glmark2, vkmark e um jogo/benchmark real, com resultados versionados
-- [ ] Correção de referência: piglit (GL) e dEQP (Vulkan), para detectar regressões
+- [ ] Conferir RAM em dual-channel e a faixa de frequência da GPU; registrar em [hardware.md](hardware.md)
+- [ ] Escolher o jogo/benchmark real que será usado em todas as medições
+- [ ] Medição de referência (glmark2, vkmark, benchmark real) em `bench/results/<data>-baseline.md`
+- [ ] Lista de referência de falhas: piglit (GL) e dEQP-VK, para detectar regressões
 
 ### M2 — Otimizações, uma por vez
 
-Cada item: hipótese → mudança → medição → testes de correção → manter ou descartar.
+Seguindo a [metodologia](metodologia.md), na ordem do [backlog](otimizacoes.md):
+sistema (O1–O3), parâmetros do driver (O4–O6), compilador elk (O7–O9),
+custo de CPU (O10), Vulkan (O11).
 
-- [ ] Investigar `max_eus_per_subslice = 12` em `intel_device_info_ivb_gt2` (a Intel diz 16 EUs)
-- [ ] Partição do cache L3 no crocus
-- [ ] Escolha SIMD8/SIMD16 e spills no elk (`INTEL_DEBUG=shader_stats`)
-- [ ] Custo de CPU por draw call no crocus (perf/flamegraph)
-- [ ] Passagens de otimização NIR em Rust (`src/compiler/rust`)
-- [ ] Tirar `brw` e `jay` (Gen9+) do build
+### M3 — Consolidação
+
+- [ ] Juntar as otimizações aceitas num build "melhor conhecido" e medir o
+      conjunto contra a referência do M1
+- [ ] Documentar o ganho total e o que ficou no limite físico
+
+## Trilha Windows (pausada)
+
+As versões v0.2–v1.0 acima (laboratório de timings, miniport WDDM) foram
+pausadas quando a máquina passou para Linux. O `ivyprobe` continua útil para
+análise de EDID em qualquer sistema.
 
 ## Referências
 
