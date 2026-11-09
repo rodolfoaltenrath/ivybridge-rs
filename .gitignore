@@ -1,0 +1,15 @@
+# Rust
+/target
+*.exe
+*.pdb
+
+# Backups gerados por tools/install-edid-override.ps1
+/tools/backup
+
+# Mesa: build e dependências baixadas pelo meson
+/mesa-main/build*/
+/mesa-main/subprojects/*
+!/mesa-main/subprojects/*.wrap
+!/mesa-main/subprojects/packagefiles/
+*.pyc
+__pycache__/
